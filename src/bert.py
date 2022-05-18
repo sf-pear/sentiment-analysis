@@ -1,18 +1,11 @@
-import csv
-import re
 import numpy as np
-import pandas as pd
 import torch
-from transformers import BertTokenizer
-from datetime import datetime
-import pickle
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 import random
 import time
 import torch.nn as nn
 from transformers import DistilBertTokenizer, DistilBertModel
-
-
+from tqdm import tqdm
+from transformers import AdamW, get_linear_schedule_with_warmup
 
 # Create a function to tokenize a set of texts
 def preprocessing_for_bert(data, MAX_LEN=512):
@@ -106,10 +99,7 @@ class BertClassifier(nn.Module):
 
         return logits
 
-# optimiser
-from transformers import AdamW, get_linear_schedule_with_warmup
-
-def initialize_model2(step, epochs=4):
+def initialize_model(step, epochs=4):
     """Initialize the Bert Classifier, the optimizer and the learning rate scheduler.
     """
     # Instantiate Bert Classifier
@@ -145,8 +135,6 @@ def set_seed(seed_value=42):
     np.random.seed(seed_value)
     torch.manual_seed(seed_value)
     torch.cuda.manual_seed_all(seed_value)
-
-from tqdm import tqdm
 
 def train(model, optimizer, scheduler, train_dataloader, val_dataloader=None, epochs=4, evaluation=False):
     """
@@ -228,7 +216,7 @@ def train(model, optimizer, scheduler, train_dataloader, val_dataloader=None, ep
             # Print performance over the entire training data
             time_elapsed = time.time() - t0_epoch
                 
-    # return total_loss # add this so we can plot the loss
+    return total_loss # add this so we can plot the loss
 
 def evaluate(model, val_dataloader):
     """
