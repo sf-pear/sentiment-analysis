@@ -18,5 +18,5 @@ def pre_process(json_file_path, file_name):
     df_no3['sentiment'] = df_no3['overall'].map(dict_class)
     df_no3['rev_sum'] = df_no3['summary'] + ' ' + df_no3['reviewText']
 
-    # get only relevant columns, remove duplicates and pickle
+    # get only relevant columns, remove duplicates, drop nulls and pickle
     return df_no3[['rev_sum', 'sentiment']].drop_duplicates(subset=['rev_sum', 'sentiment'], keep='first').dropna().to_pickle("../data/pickled_dfs/df_{}.pkl".format(file_name))
