@@ -7,3 +7,4 @@ data/Digital_Music_5.json.gz
 data/Arts_Crafts_and_Sewing_5.json.gz
 /src/__pycache__
 *.pkl
+hug/
